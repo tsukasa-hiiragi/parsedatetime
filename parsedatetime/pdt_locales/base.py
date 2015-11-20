@@ -10,7 +10,7 @@ locale_keys = set([
 
 localeID = None
 
-dateSep = ['/', '.']
+dateSep = ['/', '.', '-']
 timeSep = [':']
 meridian = ['AM', 'PM']
 usesMeridian = True

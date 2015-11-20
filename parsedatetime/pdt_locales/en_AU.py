@@ -4,7 +4,7 @@ from .base import *  # noqa
 
 # don't use an unicode string
 localeID = 'en_AU'
-dateSep = ['-', '/']
+dateSep = ['.', '-', '/']
 uses24 = False
 
 dateFormats = {
