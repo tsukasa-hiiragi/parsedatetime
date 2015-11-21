@@ -4,7 +4,7 @@ from .base import *  # noqa
 
 # don't use an unicode string
 localeID = 'es'
-dateSep = ['/']
+dateSep = ['/', '.', '-']
 usesMeridian = False
 uses24 = True
 decimal_mark = ','
@@ -44,3 +44,21 @@ timeFormats = {
 }
 
 dp_order = ['d', 'm', 'y']
+
+dayOffsets['ayer'] = -1
+dayOffsets['hoy'] = 0
+
+Modifiers = {
+    'hace': -1,
+}
+
+#TODO: Translate other units too.
+units = {
+    'seconds': ['segund', 'segundos', 'seg', 's'],
+    'minutes': ['minuto', 'minutos', 'min', 'm'],
+    'hours': ['hora', 'horas', 'hr', 'h'],
+    'days': ['día', 'días'],
+    'weeks': ['week', 'weeks', 'wk', 'w'],
+    'months': ['month', 'months', 'mth'],
+    'years': ['year', 'years', 'yr', 'y']
+}
