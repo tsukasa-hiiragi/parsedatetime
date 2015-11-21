@@ -7,7 +7,7 @@ localeID = 'es'
 dateSep = ['/', '.', '-']
 usesMeridian = False
 uses24 = True
-decimal_mark = ','
+decimal_mark = '.'
 
 Weekdays = [
     'lunes', 'martes', 'miércoles',
@@ -50,6 +50,7 @@ dayOffsets['hoy'] = 0
 
 Modifiers = {
     'hace': -1,
+    'from': 1
 }
 
 #TODO: Translate other units too.
