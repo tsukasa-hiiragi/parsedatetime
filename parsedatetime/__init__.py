@@ -22,19 +22,12 @@ Parse human-readable date/time text.
 
 Requires Python 2.6 or later
 """
-from __future__ import with_statement, absolute_import, unicode_literals
 
-__author__ = 'Mike Taylor'
-__email__ = 'bear@bear.im'
-__copyright__ = 'Copyright (c) 2016 Mike Taylor'
-__license__ = 'Apache License 2.0'
-__version__ = '2.0'
-__url__ = 'https://github.com/bear/parsedatetime'
-__download_url__ = 'https://pypi.python.org/pypi/parsedatetime'
-__description__ = 'Parse human-readable date/time text.'
+from __future__ import with_statement, absolute_import, unicode_literals
 
 import re
 import time
+import logging
 import warnings
 import datetime
 import calendar
@@ -47,10 +40,18 @@ from .context import pdtContext, pdtContextStack
 from .warns import pdt20DeprecationWarning
 
 
+__author__ = 'Mike Taylor'
+__email__ = 'bear@bear.im'
+__copyright__ = 'Copyright (c) 2016 Mike Taylor'
+__license__ = 'Apache License 2.0'
+__version__ = '2.2'
+__url__ = 'https://github.com/bear/parsedatetime'
+__download_url__ = 'https://pypi.python.org/pypi/parsedatetime'
+__description__ = 'Parse human-readable date/time text.'
+
 # as a library, do *not* setup logging
 # see docs.python.org/2/howto/logging.html#configuring-logging-for-a-library
 # Set default logging handler to avoid "No handler found" warnings.
-import logging
 
 try:  # Python 2.7+
     from logging import NullHandler
@@ -192,8 +193,8 @@ def __closure_parse_date_w3dtf():
     __tzd_re = r'(?P<tzd>[-+](?P<tzdhours>\d\d)(?::?(?P<tzdminutes>\d\d))|Z)'
     # __tzd_rx = re.compile(__tzd_re)
     __time_re = (r'(?P<hours>\d\d)(?P<tsep>:|)(?P<minutes>\d\d)'
-                 r'(?:(?P=tsep)(?P<seconds>\d\d(?:[.,]\d+)?))?'
-                 + __tzd_re)
+                 r'(?:(?P=tsep)(?P<seconds>\d\d(?:[.,]\d+)?))?' +
+                 __tzd_re)
     __datetime_re = '%s(?:T%s)?' % (__date_re, __time_re)
     __datetime_rx = re.compile(__datetime_re)
 
@@ -910,13 +911,31 @@ class Calendar(object):
                     sourceTime = sTime
                     ctx.updateAccuracy(ctx.ACU_HALFDAY)
             else:
+                # unless one of these modifiers is being applied to the
+                # day-of-week, we want to start with target as the day
+                # in the current week.
+                dowOffset = offset
+                if modifier not in ['next', 'last', 'prior', 'previous']:
+                    dowOffset = 0
+
                 wkdy = self.ptc.WeekdayOffsets[wkdy]
                 diff = self._CalculateDOWDelta(
-                    wd, wkdy, offset, self.ptc.DOWParseStyle,
+                    wd, wkdy, dowOffset, self.ptc.DOWParseStyle,
                     self.ptc.CurrentDOWParseStyle)
                 start = datetime.datetime(yr, mth, dy, startHour,
                                           startMinute, startSecond)
                 target = start + datetime.timedelta(days=diff)
+
+                if chunk1 != '':
+                    # consider "one day before thursday": we need to parse chunk1 ("one day")
+                    # and apply according to the offset ("before"), rather than allowing the
+                    # remaining parse step to apply "one day" without the offset direction.
+                    t, subctx = self.parse(chunk1, sourceTime, VERSION_CONTEXT_STYLE)
+                    if subctx.hasDateOrTime:
+                        delta = time.mktime(t) - time.mktime(sourceTime)
+                        target = start + datetime.timedelta(days=diff) + datetime.timedelta(seconds=delta * offset)
+                        chunk1 = ''
+
                 sourceTime = target.timetuple()
             ctx.updateAccuracy(ctx.ACU_DAY)
 
