@@ -43,7 +43,21 @@ To run tests on several python versions, type ``tox``::
   py27: commands succeeded
   py35: commands succeeded
 
-This assumes that you have ``python2.7``, ``python3.5``, etc in ``PATH``.
+This assumes that you have ``python2.7``, ``python3.5``, etc in ``PATH`` or if your using
+PyEnv then you need to run::
+
+    pyenv local 2.6.6 2.7.10 3.5.0
+
+The tests depend on PyICU being installed. PyICU depends on icu4c which on OS X requires homebrew::
+
+    brew install icu4c
+
+*and* then will require that you pass in the ``LDFLAGS`` and ``CPPFLAGS`` that homebrew will display after the install::
+
+    LDFLAGS:  -L/usr/local/opt/icu4c/lib
+    CPPFLAGS: -I/usr/local/opt/icu4c/include
+
+The Makefile contains the OS X default values for them so you may need to tweak them.
 
 ===================
 Using parsedatetime
@@ -60,10 +74,9 @@ An example of how to use parsedatetime::
 To get it to a Python ``datetime`` object::
 
     from datetime import datetime
-    from time import mktime
 
     time_struct, parse_status = cal.parse("tomorrow")
-    datetime.fromtimestamp(mktime(time_struct))
+    datetime(*time_struct[:6])
 
 Parse datetime with timezone support (using pytz package)::
 
