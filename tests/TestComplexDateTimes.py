@@ -4,12 +4,16 @@ Test parsing of complex date and times
 """
 from __future__ import unicode_literals
 
+import sys
 import time
 from datetime import datetime
-import unittest
 import parsedatetime as pdt
-
 from . import utils
+
+if sys.version_info < (2, 7):
+    import unittest2 as unittest
+else:
+    import unittest
 
 
 class test(unittest.TestCase):
@@ -135,7 +139,7 @@ class test(unittest.TestCase):
         self.assertExpectedResult(
             self.cal.parse('August 5th 12:00 pm', start), (target, 3))
 
-        if self.mth > 8 or (self.mth == 8 and self.dy > 5):
+        if self.mth > 8 or (self.mth == 8 and self.dy > 22):
             target = datetime(
                 self.yr + 1, 8, 22, 3, 26, 0).timetuple()
         else:
@@ -148,6 +152,12 @@ class test(unittest.TestCase):
         self.assertExpectedResult(
             self.cal.parse('August 22nd 3:26 am', start), (target, 3))
 
+    def testDatesWithDay(self):
+        start = datetime(
+            self.yr, self.mth, self.dy, self.hr, self.mn, self.sec).timetuple()
+        target = datetime(2016, 8, 23, 17, 0, 0).timetuple()
+        self.assertExpectedResult(
+            self.cal.parse('tuesday august 23nd 2016 at 5pm', start), (target, 3))
 
 if __name__ == "__main__":
     unittest.main()

@@ -6,7 +6,7 @@ ifeq ($(UNAME_S),Darwin)
     PYICU_LD = -L${BREWPATH}/opt/icu4c/lib
     PYICU_CPP = -I${BREWPATH}/opt/icu4c/include
 else
-    PYICU_LD = 
+    PYICU_LD =
     PYICU_CPP =
 endif
 
@@ -27,6 +27,11 @@ dev: env
 	@echo "on OS X use homebrew to install icu4c"
 	LDFLAGS=${PYICU_LD} CPPFLAGS=${PYICU_CPP} \
     pip install -U pyicu
+	pyenv install -s 2.7.11
+	pyenv install -s 3.5.2
+	pyenv install -s 2.6.9
+	pyenv install -s pypy-5.3
+	pyenv local 2.7.11 3.5.2 2.6.9 pypy-5.3
 
 info:
 	@python --version
@@ -49,12 +54,15 @@ lint:
 test: lint
 	python setup.py test
 
+tox: clean
+	tox
+
 coverage: clean
 	@coverage run --source=parsedatetime setup.py test
 	@coverage html
 	@coverage report
 
-ci: info coverage
+ci: tox coverage
 	CODECOV_TOKEN=`cat .codecov-token` codecov
 
 build: clean

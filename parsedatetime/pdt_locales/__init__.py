@@ -10,6 +10,7 @@ from __future__ import absolute_import
 from .icu import get_icu
 
 locales = ['ar_AR', 'de_DE', 'en_AU', 'en_US', 'es', 'nl_NL', 'pt_BR', 'ru_RU']
+locales = ['ar_AR', 'de_DE', 'en_AU', 'en_US', 'es', 'nl_NL', 'pt_BR', 'ru_RU', 'fr_FR']
 
 __locale_caches = {}
 

@@ -4,12 +4,17 @@ Test parsing of simple date and times
 """
 from __future__ import unicode_literals
 
-import unittest
+import sys
 import time
 import datetime
 import string
 import parsedatetime as pdt
 from . import utils
+
+if sys.version_info < (2, 7):
+    import unittest2 as unittest
+else:
+    import unittest
 
 
 class test(unittest.TestCase):
@@ -140,6 +145,10 @@ class test(unittest.TestCase):
         self.assertExpectedResult(self.cal.parse('$300', start), (start, 0))
         self.assertExpectedResult(self.cal.parse('300ml', start), (start, 0))
 
+        # Should not parse as a time due to false meridian
+        self.assertExpectedResult(self.cal.parse('3 axmx', start), (start, 0))
+        self.assertExpectedResult(self.cal.parse('3 pxmx', start), (start, 0))
+
     def testDates(self):
         start = datetime.datetime(
             self.yr, self.mth, self.dy, self.hr, self.mn, self.sec).timetuple()
@@ -208,6 +217,8 @@ class test(unittest.TestCase):
             2013, 8, 1, self.hr, self.mn, self.sec).timetuple()
         self.assertExpectedResult(
             self.cal.parse('Aug. 2013', start), (target, 1))
+        self.assertExpectedResult(
+            self.cal.parse('Aug  2013', start), (target, 1))
 
     def testLeapDays(self):
         start = datetime.datetime(

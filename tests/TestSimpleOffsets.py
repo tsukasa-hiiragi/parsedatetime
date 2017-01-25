@@ -4,12 +4,17 @@ Test parsing of 'simple' offsets
 """
 from __future__ import unicode_literals
 
+import sys
 import time
 import datetime
 import calendar
-import unittest
 import parsedatetime as pdt
 from . import utils
+
+if sys.version_info < (2, 7):
+    import unittest2 as unittest
+else:
+    import unittest
 
 
 def _truncateResult(result, trunc_seconds=True, trunc_hours=False):
@@ -46,11 +51,19 @@ class test(unittest.TestCase):
 
         self.assertExpectedResult(self.cal.parse('now', start), (target, 2))
 
+    def testRightNow(self):
+        s = datetime.datetime.now()
+
+        start = s.timetuple()
+        target = s.timetuple()
+
+        self.assertExpectedResult(self.cal.parse('right now', start), (target, 2))
+
     def testOffsetFromDayOfWeek(self):
         self.cal.ptc.StartTimeFromSourceTime = True
 
-        s = datetime.datetime(2016, 2, 16) # a Tuesday
-        t = datetime.datetime(2016, 2, 18) # Thursday of the same week
+        s = datetime.datetime(2016, 2, 16)  # a Tuesday
+        t = datetime.datetime(2016, 2, 18)  # Thursday of the same week
         tPlusOffset = t + datetime.timedelta(hours=1)
 
         start = s.timetuple()
@@ -66,8 +79,8 @@ class test(unittest.TestCase):
     def testOffsetBeforeDayOfWeek(self):
         self.cal.ptc.StartTimeFromSourceTime = True
 
-        s = datetime.datetime(2016, 2, 16) # a Tuesday
-        t = datetime.datetime(2016, 2, 18) # Thursday of the same week
+        s = datetime.datetime(2016, 2, 16)  # a Tuesday
+        t = datetime.datetime(2016, 2, 18)  # Thursday of the same week
         tPlusOffset = t + datetime.timedelta(hours=-1)
 
         start = s.timetuple()
@@ -180,6 +193,23 @@ class test(unittest.TestCase):
         self.cal.ptc.StartTimeFromSourceTime = True
         self.assertExpectedResult(self.cal.parse('next friday', start),
                                   (target, 1))
+
+    def testNextWeekDayWithTime(self):
+        start = datetime.datetime.now()
+        target = start + datetime.timedelta(days=4 + 7 - start.weekday())
+        target = target.replace(hour=13, minute=0, second=0)
+        target = target.timetuple()
+
+        self.assertExpectedResult(self.cal.parse('next friday at 1pm', start),
+                                  (target, 3))
+        self.assertExpectedResult(self.cal.parse('1pm next friday', start),
+                                  (target, 3))
+
+        target = start + datetime.timedelta(days=4 - start.weekday())
+        target = target.replace(hour=13, minute=0, second=0)
+        target = target.timetuple()
+        self.assertExpectedResult(self.cal.parse('1pm this friday', start),
+                                  (target, 3))
 
     def testWeekBeforeNow(self):
         s = datetime.datetime.now()
