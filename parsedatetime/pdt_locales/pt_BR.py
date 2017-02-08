@@ -40,6 +40,13 @@ timeFormats = {
 
 dp_order = ['d', 'm', 'y']
 
+dayOffsets = {
+    'amanhã': 1,
+    'hoje': 0,
+    'ontem': -1,
+    'anteontem': -2
+}
+
 units = {
     'seconds': ['segundo', 'seg', 's'],
     'minutes': ['minuto', 'min', 'm'],
