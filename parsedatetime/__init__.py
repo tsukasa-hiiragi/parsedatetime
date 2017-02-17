@@ -794,16 +794,25 @@ class Calendar(object):
             startMinute = 0
             startSecond = 0
 
-        # capture the units after the modifier and the remaining
-        # string after the unit
-        m = self.ptc.CRE_REMAINING.search(chunk2)
-        if m is not None:
-            index = m.start() + 1
-            unit = chunk2[:m.start()]
-            chunk2 = chunk2[index:]
-        else:
-            unit = chunk2
+
+        # check if the datetime information is after the modifier
+        # like spanish language for e.g. 5 hours ago ==> hace 5 horas
+        u = self.ptc.CRE_UNITS.search(chunk2)
+        if u is not None and chunk1.strip() == '':
+            chunk1 = chunk2
             chunk2 = ''
+            unit = ''
+        else:
+           # capture the units after the modifier and the remaining
+           # string after the unit
+           m = self.ptc.CRE_REMAINING.search(chunk2)
+           if m is not None:
+               index = m.start() + 1
+               unit = chunk2[:m.start()]
+               chunk2 = chunk2[index:]
+           else:
+               unit = chunk2
+               chunk2 = ''
 
         debug and log.debug("modifier [%s] chunk1 [%s] "
                             "chunk2 [%s] unit [%s]",
