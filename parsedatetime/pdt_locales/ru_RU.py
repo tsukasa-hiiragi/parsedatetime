@@ -4,7 +4,7 @@ from .base import *  # noqa
 
 # don't use an unicode string
 localeID = 'ru_RU'
-dateSep = ['-', '.']
+dateSep = ['-', '.', '/']
 timeSep = [':']
 meridian = []
 usesMeridian = False
