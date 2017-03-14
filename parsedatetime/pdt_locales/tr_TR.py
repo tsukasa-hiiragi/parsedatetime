@@ -36,6 +36,19 @@ timeFormats = {
     'short': 'HH:mm',
 }
 
+numbers = {
+    'bir': 1,
+    'iki': 2,
+    'üç': 3,
+    'dört': 4,
+    'beş': 5,
+    'altı': 6,
+    'yedi': 7,
+    'sekiz': 8,
+    'dokuz': 9,
+    'on': 10,
+}
+
 dp_order = ['d', 'm', 'y']
 
 decimal_mark = '.'
