@@ -10,23 +10,18 @@ meridian = []
 usesMeridian = False
 uses24 = True
 
-Weekdays = [
-    'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe',
-    'Cuma', 'Cumartesi', 'Pazar',
-]
-shortWeekdays = [
-    'Pzt', 'Sal', 'Çrs', 'Prs', 'Cum', 'Cmt',
-]
+Weekdays = ['pazartesi', 'salı', 'çarşamba', 'perşembe',
+            'cuma', 'cumartesi', 'pazar']
+shortWeekdays = ['pzt', 'sal', 'çrs', 'prs', 'cum', 'cmt']
+
 # library does not know how to conjugate words
 # библиотека не умеет спрягать слова
-Months = [
-    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz',
-    'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
-]
-shortMonths = [
-    u'Oc', u'Şu', u'Mar', u'Ni', u'May', u'Ha',
-    u'Te', u'Ağ', u'Ey', u'Ek', u'Ka', u'Ar',
-]
+Months = ['ocak', 'şubat', 'mart', 'nisan', 'mayıs', 'haziran',
+ 'temmuz', 'ağustos', 'eylül', 'ekim', 'kasım', 'aralık']
+
+shortMonths = ['oc', 'şu', 'mar', 'ni', 'may', 'ha', 'te', 'ağ',
+               'ey', 'ek', 'ka', 'ar']
+
 dateFormats = {
     'full': 'EEEE, dd MMMM yyyy',
     'long': 'dd MMMM yyyy',
