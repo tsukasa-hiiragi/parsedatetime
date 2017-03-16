@@ -19,8 +19,8 @@ shortWeekdays = ['pzt', 'sal', 'çrs', 'prs', 'cum', 'cmt']
 Months = ['ocak', 'şubat', 'mart', 'nisan', 'mayıs', 'haziran',
  'temmuz', 'ağustos', 'eylül', 'ekim', 'kasım', 'aralık']
 
-shortMonths = ['oc', 'şu', 'mar', 'ni', 'may', 'ha', 'te', 'ağ',
-               'ey', 'ek', 'ka', 'ar']
+shortMonths = ['oc|oca', 'şu|şub', 'mar|ma', 'ni|nis', 'may|ma', 'ha|haz', 'te|tem', 'ağ|ağu',
+               'ey|eyl', 'ek|eki', 'ka|kas', 'ar|ara']
 
 dateFormats = {
     'full': 'EEEE, dd MMMM yyyy',

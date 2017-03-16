@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Test parsing of simple date and times using the Russian locale
+Test parsing of simple date and times using the Turkish locale
 """
 from __future__ import unicode_literals
 
@@ -32,6 +32,14 @@ class test(unittest.TestCase):
         parsed = self.cal.parseDT('bir Hafta önce')
         parsed = [parsed[0].timetuple(), parsed[1]]
         self.assertExpectedResult(parsed, (expected.timetuple(), 1))
+
+    def testTurkishDate3LetterShortMonth(self):
+        parsed = self.cal.parseDT('08 Eyl 2014 17:29:00')
+        parsed = [parsed[0].timetuple(), parsed[1]]
+        self.assertExpectedResult(
+            parsed,
+            (datetime.datetime(2014, 9, 8, 17, 29).timetuple(), 3),
+        )
 
 if __name__ == "__main__":
     unittest.main()
