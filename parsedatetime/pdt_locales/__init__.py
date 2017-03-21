@@ -9,7 +9,7 @@ All of the included locale classes shipped with pdt.
 from __future__ import absolute_import
 from .icu import get_icu
 
-locales = ['ar_AR', 'de_DE', 'en_AU', 'en_US', 'es', 'fr_FR', 'nl_NL', 'pt_BR', 'ru_RU', 'tr_TR']
+locales = ['ar_AR', 'de_DE', 'en_AU', 'en_US', 'es', 'fr_FR', 'nl_NL', 'pt_BR', 'ru_RU', 'tr_TR', 'zh']
 
 __locale_caches = {}
 
