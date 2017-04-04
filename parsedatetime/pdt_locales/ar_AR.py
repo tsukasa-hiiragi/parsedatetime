@@ -36,3 +36,19 @@ Months = [
     '- نوفمبر',
     'ديسمبر',
 ]
+
+Modifiers = {
+    'منذ': -1,
+}
+
+#TODO: Translate other units too.
+units = {
+    'seconds': ['ثانية'],
+    'minutes': ['دقيقة', 'دقائق'],
+    'hours': ['ساعة', 'ساعات'],
+    'days': ['يوم','أيام'],
+    'weeks': ['أسبوع'],
+    'months': ['شهر'],
+    'years': ['عام', 'سنة'],
+}
+
